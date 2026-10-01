@@ -37,12 +37,12 @@ public class JUnitTest {
     }
 
     @BeforeAll
-    public void prepreAll(){
+    public static void prepreAll(){
         System.out.println("테스트 후 설겆어");
     }
 
     @AfterAll
-    public void cleanAll(){
+    public static void cleanAll(){
         System.out.println("테스트 후 설겆어");
     }
 
