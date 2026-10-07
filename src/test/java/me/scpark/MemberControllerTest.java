@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.lang.reflect.Member;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,10 +38,31 @@ class MemberControllerTest {
     @Test
     void getAllMembers()  throws Exception{
 
-        Member m = new Member("SCPARK");
+        Member m = new Member("SCPARK") {
+            @Override
+            public Class<?> getDeclaringClass() {
+                return null;
+            }
+
+            @Override
+            public String getName() {
+                return "";
+            }
+
+            @Override
+            public int getModifiers() {
+                return 0;
+            }
+
+            @Override
+            public boolean isSynthetic() {
+                return false;
+            }
+        };
 
         Member saveMember = memberRepository.save(m);
 
+        Object MeaidType = null;
         mockMvc.perform(get("member").accapt(MeaidType.APPLICATION_JSON));
 
        final ResultActions result = mockMvc.perform(get("/Member")).accept(MediaType.APPLICATION_JSON);

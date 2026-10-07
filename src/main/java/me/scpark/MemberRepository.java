@@ -6,8 +6,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.lang.reflect.Member;
 import java.util.List;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member ,Long>{
+public interface MemberRepository extends JpaRepository<Member,Long>{
 }
