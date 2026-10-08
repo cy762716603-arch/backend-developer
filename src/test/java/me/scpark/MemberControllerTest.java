@@ -1,28 +1,18 @@
 package me.scpark;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-
-import java.lang.reflect.Member;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@AutoConfigureMockMvc
 @SpringBootTest
+@AutoConfigureMockMvc
 class MemberControllerTest {
-
 
     @Autowired
     private MemberRepository memberRepository;
@@ -31,43 +21,24 @@ class MemberControllerTest {
     private MockMvc mockMvc;
 
     @BeforeEach
-    public void cleanup(){
+    void cleanDB() {
         memberRepository.deleteAll();
     }
-    @DisplayName("")
+
     @Test
-    void getAllMembers()  throws Exception{
+    void getAllMembers() throws Exception {
+        // given
+        Member m = new Member("SCPARK");
+        Member savedMember = memberRepository.save(m);
 
-        Member m = new Member("SCPARK") {
-            @Override
-            public Class<?> getDeclaringClass() {
-                return null;
-            }
 
-            @Override
-            public String getName() {
-                return "";
-            }
+        // when
+        var result = mockMvc.perform(get("/member")
+                .accept(MediaType.APPLICATION_JSON));
 
-            @Override
-            public int getModifiers() {
-                return 0;
-            }
-
-            @Override
-            public boolean isSynthetic() {
-                return false;
-            }
-        };
-
-        Member saveMember = memberRepository.save(m);
-
-        Object MeaidType = null;
-        mockMvc.perform(get("member").accapt(MeaidType.APPLICATION_JSON));
-
-       final ResultActions result = mockMvc.perform(get("/Member")).accept(MediaType.APPLICATION_JSON);
-
-       result.andExpect(status().isOK()).andExpect(jsonPath("$[0].id").value(1L))
-               .andExpect(jsonPath("$[0].name").value(saveMember.getName())
+        // then
+        result.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(savedMember.getId()))
+                .andExpect(jsonPath("$[0].name").value(savedMember.getName()));
     }
 }

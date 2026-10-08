@@ -1,0 +1,5 @@
+# src/main/resoures/data.sql
+spring:
+  sql:
+    init:
+      mode: never
