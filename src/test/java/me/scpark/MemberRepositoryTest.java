@@ -22,7 +22,7 @@ class MemberRepositoryTest {
     @DisplayName("MemberRepository를 통해 member 테이블의 모든 레보트(3게) 기지오기")
     @Test
 
-    public void getAllMembers(){
+    public void getAllMembers() {
         List<Member> members = memberRepository.findAll();
 
         assertThat(members.size()).isEqualTo(3);
@@ -30,4 +30,33 @@ class MemberRepositoryTest {
 
     }
 
+    @Sql("/insert-members.sql")
+    public void Member
+
+    public void getMemberByname() {
+        Option<Member> optMember = memberRepository.findByname("C");
+        Member member = optMember.get();
+
+        assertThat(member.getId()).isEqualTo(3);
+    }
+
+    @Sql("insert-members.sql")
+    @DisplayName("MemberRepository를 통해 id가 2인 레코트 가지오기")
+    @Test
+    public void getMemberById() {
+        Member member = memberRepository.findById(2L).get();
+
+        assertThat(member.getName()).isEuqlTo("B");
+    }
+
+    @DisplayName("MemberRepository를 통해 이름이 '천위'인 레코트 추가하기 ")
+    @Test
+    public void saveMember() {
+        Member member = new Member("천위");
+        memberRepository.save(member);
+        List<Member> result = memberRepository.findAll();
+        assertThat(result.size()).isEqualTo(1);
+        assertThat(result.get(0).getName()).isEqualTo("천위");
+
+    }
 }

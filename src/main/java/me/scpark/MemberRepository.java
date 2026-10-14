@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member ,Long>{
 
-    public Option<Member> findByname(String name);}
+    public Optional<Member> findByname(String name);
+
 }
