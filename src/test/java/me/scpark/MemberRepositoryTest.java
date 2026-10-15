@@ -31,7 +31,7 @@ class MemberRepositoryTest {
     }
 
     @Sql("/insert-members.sql")
-    public void Member
+
 
     public void getMemberByname() {
         Option<Member> optMember = memberRepository.findByname("C");
@@ -40,7 +40,6 @@ class MemberRepositoryTest {
         assertThat(member.getId()).isEqualTo(3);
     }
 
-    @Sql("insert-members.sql")
     @DisplayName("MemberRepository를 통해 id가 2인 레코트 가지오기")
     @Test
     public void getMemberById() {
@@ -60,14 +59,40 @@ class MemberRepositoryTest {
 
     }
 
+
+
     @DisplayName("테이블 member 에서 id가 3인 레코트 삭제하기")
     @Test
+    @Sql("/insert-members.sql")
     public void deleById3(){
 
         memberRepository.deleteById(3L);
 
         List<member> members = memberRepository.findAll();
         assertThat(members.size()).isEqualTo(2);
+        assertThat(members.size()).isZero();
 
     }
+    @DisplayName("테이블 member name이'A','B'인 레코트를 한 번에 십입하기")
+    @Test
+    public void saveMembers(){
+
+        List<Member> members = List.of(new Member("A"),new Member("B"));
+        memberRepository.saveAll(members);
+        assertThat(memberRepository.findAll().size()).isEqualTo(2);
+    }
 }
+
+   @Sql("/insert-members.sql")
+   @DisplayName("변견감지 가능을 통해 Id가 2인 레코트의 이름을 'B', 'BB'로 변경하기.")
+   @Test
+   public void update(){
+       Member member = memberRepository.findById(2L).get();
+
+       member.name = "BB";
+       member.setName("BB");
+
+       member = memberRepository.findById(2L).get();
+       assertThat(member.getName()).isEqualTo("88");
+
+   }

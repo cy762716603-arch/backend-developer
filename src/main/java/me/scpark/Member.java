@@ -18,4 +18,8 @@ public class Member {
     public Member(String name) {
         this.name = name;
     }
+
+    public void getName(String name){
+        this name
+    }
 }
