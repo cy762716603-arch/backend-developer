@@ -59,4 +59,15 @@ class MemberRepositoryTest {
         assertThat(result.get(0).getName()).isEqualTo("천위");
 
     }
+
+    @DisplayName("테이블 member 에서 id가 3인 레코트 삭제하기")
+    @Test
+    public void deleById3(){
+
+        memberRepository.deleteById(3L);
+
+        List<member> members = memberRepository.findAll();
+        assertThat(members.size()).isEqualTo(2);
+
+    }
 }
