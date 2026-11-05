@@ -4,11 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import me.scpark.domain.Article;
+import org.apache.catalina.Session;
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AddArticleRequest {
+public class AddArticleRequest implements Session {
     private String title;
     private String content;
 
